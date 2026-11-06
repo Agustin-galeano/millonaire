@@ -11,10 +11,10 @@ todo depende de datos que viven en el teléfono.
 No se avanza a la Etapa 1 hasta cumplir todos.
 
 - [x] Copia íntegra del proyecto original (`millonaire-original-2026-11-06.tar.gz`, SHA-256 `c56985e9…6e88f`)
-- [x] Versión inicial recuperable en git (etiqueta `v0-linea-base`)
+- [x] Versión inicial recuperable en git: etiqueta local `v0-linea-base` y rama `linea-base` en GitHub
 - [x] Pruebas de regresión documentadas (`pruebas/README.md`): 34 pruebas, estables en 3 repeticiones
-- [ ] Repositorio subido a GitHub *(espera la instalación de la app de Claude en GitHub)*
-- [ ] El APK compila en GitHub y abre en un Android real
+- [x] Repositorio subido a GitHub, con las pruebas corriendo solas en cada cambio
+- [ ] El APK compila en GitHub (hecho el 6/11, 1 min 43 s) y abre en un Android real (falta tu prueba)
 - [ ] Las 29 pruebas de comportamiento siguen pasando después de reorganizar el código
 - [ ] Un guardado dañado no rompe el juego ni borra el progreso
 - [ ] Ya no se puede generar dinero infinito revendiendo
@@ -84,7 +84,7 @@ chat con menores y dependencia de una sola persona para el código.
 
 | Decisión | Cuándo |
 |---|---|
-| Instalar la app de Claude en GitHub (repositorio `millonaire`) | **Ahora: bloquea la Etapa 0** |
+| Instalar el APK de prueba en tu Android y confirmar que abre | **Ahora** |
 | Cuentas de Fly.io, Neon y dominio | Inicio de la Etapa 1 |
 | Edad mínima | Antes del chat (Etapa 2) |
 | Moneda virtual | Fin de la Etapa 2 |

@@ -1,0 +1,43 @@
+# Corre las pruebas de regresión en cada cambio.
+# Si alguna falla, el cambio rompió algo del juego y no se avanza.
+name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  regresion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Bajar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar el navegador de pruebas
+        run: npx playwright install --with-deps chromium
+
+      - name: Verificar que el juego publicado coincide con su fuente
+        run: |
+          python3 herramientas/armar.py
+          git diff --exit-code www/index.html
+
+      - name: Correr las pruebas de regresión
+        run: npx playwright test
+
+      - name: Guardar el informe si algo falló
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-de-pruebas
+          path: test-results/
