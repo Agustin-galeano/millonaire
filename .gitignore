@@ -1,0 +1,9 @@
+node_modules/
+*.jks
+*.keystore
+llave.txt
+android/app/build/
+android/.gradle/
+android/build/
+ios/App/build/
+.DS_Store

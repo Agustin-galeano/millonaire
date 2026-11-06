@@ -1,0 +1,8 @@
+{
+  "appId": "com.agustingaleano.millonaire",
+  "appName": "Millonaire",
+  "webDir": "www",
+  "backgroundColor": "#0b1424",
+  "android": { "backgroundColor": "#0b1424" },
+  "ios": { "backgroundColor": "#0b1424", "contentInset": "never" }
+}

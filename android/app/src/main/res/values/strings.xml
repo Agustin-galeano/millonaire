@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Millonaire</string>
+    <string name="title_activity_main">Millonaire</string>
+    <string name="package_name">com.agustingaleano.millonaire</string>
+    <string name="custom_url_scheme">com.agustingaleano.millonaire</string>
+</resources>
