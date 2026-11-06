@@ -7,3 +7,5 @@ android/.gradle/
 android/build/
 ios/App/build/
 .DS_Store
+test-results/
+playwright-report/

@@ -2,8 +2,10 @@
   "name": "millonaire",
   "version": "1.0.0",
   "private": true,
-  "description": "Millonaire: solo se puede comprar.",
+  "description": "Millonaire: mundo social isométrico de millonarios.",
   "scripts": {
+    "armar": "python3 herramientas/armar.py",
+    "pruebas": "playwright test",
     "sync": "cap sync",
     "icons": "capacitor-assets generate --iconBackgroundColor '#0b1424' --splashBackgroundColor '#0b1424'"
   },
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^4.0.0",
-    "@capacitor/cli": "^8.6.0"
+    "@capacitor/cli": "^8.6.0",
+    "@playwright/test": "^1.63.0"
   }
 }
