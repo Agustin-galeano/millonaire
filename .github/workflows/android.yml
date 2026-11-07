@@ -69,3 +69,62 @@ jobs:
         with:
           name: millonaire-aab-google-play
           path: android/app/build/outputs/bundle/release/app-release.aab
+
+  # --- Prueba en un Android emulado: instala el APK, lo abre y juega un poco ---
+  emulador:
+    needs: android
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write   # para guardar las capturas en la rama "capturas-ci"
+    steps:
+      - name: Bajar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node y dependencias
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Bajar el APK recién compilado
+        uses: actions/download-artifact@v4
+        with:
+          name: millonaire-apk-prueba
+          path: apk
+
+      - name: Habilitar aceleración para el emulador
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Probar en Android 14 emulado
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: ./herramientas/probar-en-emulador.sh apk/app-debug.apk capturas
+
+      - name: Guardar capturas en la rama capturas-ci
+        if: always()
+        run: |
+          [ -d capturas ] || exit 0
+          cp -r capturas /tmp/capturas
+          cd /tmp/capturas
+          git init -q -b capturas-ci
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Capturas del emulador: ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" capturas-ci
+
+      - name: Subir capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-emulador
+          path: capturas
