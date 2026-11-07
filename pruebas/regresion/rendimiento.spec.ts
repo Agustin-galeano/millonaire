@@ -1,6 +1,9 @@
 import { test, expect, Page } from '@playwright/test';
 import { abrir, estado, leerGuardado, leerMundo, tocarBaldosa } from './ayuda';
 
+// Las mediciones de rendimiento corren de a una para no competir entre sí por la CPU.
+test.describe.configure({ mode: 'serial' });
+
 // Sala Palacio llena: 140 piezas variadas.
 function palacioLleno() {
   const tipos = ['sillon', 'mesa', 'esmeralda', 'amatista', 'oro', 'piano', 'lampara', 'trono', 'estatua', 'cofre'];
@@ -23,6 +26,35 @@ async function medirCuadros(page: Page, cuadros = 90) {
   return { mediana: t[Math.floor(t.length / 2)], p95: t[Math.floor(t.length * 0.95)] };
 }
 
+/*
+ * Los resultados con "CPU 4x / 6x" dependen de qué tan rápida es la computadora que corre la prueba.
+ * Para que den lo mismo en cualquier máquina, primero medimos una tarea fija ("calibración") y
+ * calculamos cuánto hay que frenar la CPU para llegar a la velocidad de referencia.
+ * Referencia: la máquina donde se midió el informe inicial (27 ms en esta tarea sin frenar).
+ * Gama media = 4 veces más lenta que la referencia; gama baja = 6 veces.
+ */
+const REFERENCIA_MS = 27;
+async function tareaFija(page: Page) {
+  return page.evaluate(() => {
+    const c = document.createElement('canvas'); c.width = 304; c.height = 240; const g = c.getContext('2d')!;
+    const t: number[] = [];
+    for (let k = 0; k < 7; k++) {
+      const t0 = performance.now(); let a = 0;
+      for (let i = 0; i < 60000; i++) { g.fillStyle = i % 2 ? '#123456' : '#abcdef'; g.fillRect(i % 300, (i * 7) % 240, 1, 1); a += Math.sqrt(i) * Math.sin(i); }
+      t.push(performance.now() - t0 + (a > 1e12 ? 1 : 0));
+    }
+    t.sort((x, y) => x - y); return t[3];
+  });
+}
+async function frenarCPU(page: Page, vecesMasLento: number) {
+  const cdp = await page.context().newCDPSession(page);
+  const medido = await tareaFija(page);
+  const rate = Math.min(20, Math.max(1, (REFERENCIA_MS * vecesMasLento) / medido));
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate });
+  test.info().annotations.push({ type: 'calibración', description: `tarea fija ${medido.toFixed(1)} ms → CPU frenada ${rate.toFixed(1)}x` });
+  return rate;
+}
+
 async function memoriaJS(page: Page) {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('HeapProfiler.collectGarbage');
@@ -41,8 +73,7 @@ test('sala llena con CPU normal: 30 cuadros por segundo o más', async ({ page }
 // CRITERIO DE ETAPA 0 (hoy no se cumple): gama media, CPU 4 veces más lenta.
 test.fail('gama media (CPU 4x): sala llena a 30 cuadros por segundo o más', async ({ page }) => {
   await abrir(page, palacioLleno());
-  const cdp = await page.context().newCDPSession(page);
-  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  await frenarCPU(page, 4);
   await page.waitForTimeout(500);
   const r = await medirCuadros(page, 60);
   test.info().annotations.push({ type: 'medición', description: `mediana ${r.mediana.toFixed(1)} ms, p95 ${r.p95.toFixed(1)} ms` });
@@ -52,8 +83,7 @@ test.fail('gama media (CPU 4x): sala llena a 30 cuadros por segundo o más', asy
 // CRITERIO DE ETAPA 0 (hoy no se cumple): gama baja, CPU 6 veces más lenta, mínimo jugable 20 cuadros por segundo.
 test.fail('gama baja (CPU 6x): sala llena a 20 cuadros por segundo o más', async ({ page }) => {
   await abrir(page, palacioLleno());
-  const cdp = await page.context().newCDPSession(page);
-  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  await frenarCPU(page, 6);
   await page.waitForTimeout(500);
   const r = await medirCuadros(page, 60);
   test.info().annotations.push({ type: 'medición', description: `mediana ${r.mediana.toFixed(1)} ms, p95 ${r.p95.toFixed(1)} ms` });
