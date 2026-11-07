@@ -1,11 +1,14 @@
 // Prueba de humo dentro de la app real de Android (WebView), conectada por el puerto de depuración.
 // Abre el juego, cierra la bienvenida, compra un lingote, camina y verifica que no haya errores.
-import { chromium } from '@playwright/test';
+// Usa el soporte de Android de Playwright, que se conecta a la vista web de una app por adb.
+import { _android as android } from 'playwright-core';
 
 const salida = process.argv[2] || '.';
-const browser = await chromium.connectOverCDP('http://localhost:9222');
-const ctx = browser.contexts()[0];
-const page = ctx.pages().find(p => p.url().includes('localhost')) || ctx.pages()[0];
+const [device] = await android.devices();
+if (!device) throw new Error('no hay ningún Android conectado');
+console.log('Dispositivo:', device.model(), device.serial());
+const webview = await device.webView({ pkg: 'com.agustingaleano.millonaire' });
+const page = await webview.page();
 console.log('Página:', page.url());
 const errores = [];
 page.on('pageerror', e => errores.push(String(e)));
@@ -28,4 +31,4 @@ await page.waitForTimeout(1500);
 await page.screenshot({ path: `${salida}/2-juego-en-android.png` });
 if (errores.length) throw new Error('errores de JavaScript: ' + errores.join(' | '));
 console.log('Prueba de humo OK');
-await browser.close();
+await device.close();

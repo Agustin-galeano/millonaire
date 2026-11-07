@@ -18,7 +18,6 @@ adb logcat -d > "$OUT/logcat.txt"
 grep -q "FATAL EXCEPTION" "$OUT/logcat.txt" && falla "la app tuvo un cierre inesperado"
 
 # Conectamos las pruebas a la vista web de la app (solo funciona en la versión de prueba)
-adb forward tcp:9222 "localabstract:webview_devtools_remote_$PID" || falla "no se pudo conectar a la vista web"
 node herramientas/humo-android.mjs "$OUT" || falla "la prueba de humo dentro de la app falló"
 adb exec-out screencap -p > "$OUT/3-despues-de-jugar.png"
 adb logcat -d | grep "Capacitor/Console" > "$OUT/consola.txt" || true
