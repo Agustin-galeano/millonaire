@@ -1,0 +1,2 @@
+11-07 15:22:00.958  3541  3541 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-07 15:22:01.138  3541  3541 I Capacitor/Console: File:  - Line 333 - Msg: undefined
