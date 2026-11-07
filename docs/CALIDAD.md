@@ -1,6 +1,6 @@
 # Registro de calidad de Millonaire
 
-Última actualización: 6 de noviembre de 2026 · Etapa actual: **0 (Cimientos)**
+Última actualización: 7 de noviembre de 2026 · Etapa actual: **0 (Cimientos)**
 
 Una funcionalidad está **terminada** solo cuando su lógica funciona, sus datos persisten correctamente,
 sus interacciones están implementadas y sus pruebas pasan. Con esa definición, hoy hay **0 terminadas**:
@@ -14,8 +14,10 @@ No se avanza a la Etapa 1 hasta cumplir todos.
 - [x] Versión inicial recuperable en git: etiqueta local `v0-linea-base` y rama `linea-base` en GitHub
 - [x] Pruebas de regresión documentadas (`pruebas/README.md`): 34 pruebas, estables en 3 repeticiones
 - [x] Repositorio subido a GitHub, con las pruebas corriendo solas en cada cambio
-- [ ] El APK compila en GitHub (hecho el 6/11, 1 min 43 s) y abre en un Android real (falta tu prueba)
-- [ ] Las 29 pruebas de comportamiento siguen pasando después de reorganizar el código
+- [x] El APK compila en GitHub y se prueba solo en un Android 14 emulado en cada cambio: instala, abre, compra un lingote y camina sin errores (capturas en la rama `capturas-ci`)
+- [ ] Prueba en un Android físico (opcional pero recomendada: el teléfono de Agustín es iPhone)
+- [x] Paso 3a: TypeScript y Vite. Las 29 pruebas siguen pasando y las 5 de errores conocidos siguen fallando igual
+- [ ] Paso 3b: código separado en módulos (render, lógica, interfaz, datos) con las pruebas pasando
 - [ ] Un guardado dañado no rompe el juego ni borra el progreso
 - [ ] Ya no se puede generar dinero infinito revendiendo
 - [ ] Las ediciones limitadas no se pueden duplicar
@@ -24,7 +26,7 @@ No se avanza a la Etapa 1 hasta cumplir todos.
 - [ ] **Rendimiento gama baja** (CPU 6×): sala llena a 20 cuadros/s o más
 - [ ] **Memoria**: 200 cambios de ropa suman menos de 15 MB; 2 horas simuladas suman menos de 20 MB
 - [ ] **Estabilidad prolongada**: 2 horas simuladas sin errores y con datos acotados, más 1 hora real en un teléfono sin cierres ni recalentamiento anormal
-- [ ] Licencia de la fuente incluida en la app
+- [x] Licencia de la fuente incluida en la app (`www/licencias/`)
 - [ ] Estructura de iOS preparada (compilarla requiere Mac o compilación en la nube: queda marcado como pendiente, no como hecho)
 
 ## Alcance de la seguridad
@@ -47,7 +49,7 @@ Hoy (antes de la Etapa 1) ninguna de las cuatro áreas está protegida, porque t
 |---|---|---|
 | Pasan | 29 | Arranque, catálogo, bóveda, mercado, sala, look, CPU normal, memoria, estabilidad simulada |
 | Fallan a propósito (errores conocidos, `test.fail`) | 5 | Guardado incompleto, horizontal, dinero infinito, gama media, gama baja |
-| Sin verificar | — | Compilación del APK · iPhone/WebKit · teléfonos reales · prueba de 1 hora en un teléfono |
+| Sin verificar | — | iPhone/WebKit · teléfonos físicos · prueba de 1 hora en un teléfono |
 
 Mediciones de hoy:
 
@@ -71,7 +73,7 @@ Mediciones de hoy:
 | 6 | Ediciones limitadas duplicables por los bots | Alta | Abierto |
 | 7 | Rendimiento en gama media y baja | Alta | Abierto (pruebas `test.fail`) |
 | 8 | Android 16 e iPad giran la pantalla; la interfaz no está lista para horizontal | Alta | Abierto (prueba `test.fail` en celular) |
-| 9 | Licencia de la fuente no incluida en la app | Baja | Abierto |
+| 9 | Licencia de la fuente no incluida en la app | Baja | **Corregido** el 7/11 |
 | 10 | Al guardar o exhibir desde la Bóveda, la lista se vuelve a cerrar | Baja | Abierto (nuevo, encontrado al escribir las pruebas) |
 | 11 | El mundo simulado no se guarda hasta la primera compra: si se recarga antes, las publicaciones de los bots cambian | Baja | Abierto (nuevo, encontrado al escribir las pruebas) |
 
@@ -84,7 +86,7 @@ chat con menores y dependencia de una sola persona para el código.
 
 | Decisión | Cuándo |
 |---|---|
-| Instalar el APK de prueba en tu Android y confirmar que abre | **Ahora** |
+| Cuenta de Apple Developer para probar en iPhone (TestFlight) | Cuando Agustín decida; recomendado antes de la Etapa 2 |
 | Cuentas de Fly.io, Neon y dominio | Inicio de la Etapa 1 |
 | Edad mínima | Antes del chat (Etapa 2) |
 | Moneda virtual | Fin de la Etapa 2 |
