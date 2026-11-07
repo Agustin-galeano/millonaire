@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1424">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Millonaire</title>
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <div id="logo">MILLONAIRE<small id="sub">Acá no se vende. Se compra entre millonarios.</small></div>
+    <div class="chip"><img id="coinIc" alt=""><div><span class="lbl">PATRIMONIO</span><b id="worth">US$ 0</b></div></div>
+  </div>
+  <div id="stage">
+    <canvas id="room"></canvas>
+    <div id="bubbles"><div class="bubble" id="bubble"><img id="bubHead" alt=""><span id="bubTx"></span></div></div>
+    <button class="pill" id="roomPill">🏠 <b id="roomName">Salón</b> ▾</button>
+    <button class="pill" id="lookPill">👔 Mi look</button>
+    <div class="pill hidden" id="moveBar"><span id="moveTx"></span><button id="moveCancel">Listo</button></div>
+    <div class="pill hidden" id="visitBar"><button id="backBtn">← Volver</button><span id="visitTx"></span></div>
+    <div id="demo">MODO DEMO</div>
+    <div class="win info hidden" id="info"><div class="hd"><span id="infoTitle">Info</span><button class="x" id="infoX">X</button></div><div class="bd"><img id="infoIc" alt=""><div class="tx" id="infoTx"></div></div></div>
+  </div>
+  <div id="bar">
+    <button class="tb" id="bVault"><span class="ic"><img id="icVault" alt=""></span>Bóveda</button>
+    <button class="tb" id="bMarket"><span class="ic"><img id="icMarket" alt=""></span>Mercado</button>
+    <button class="tb main" id="bShop"><span class="ic"><img id="icShop" alt=""></span>COMPRAR</button>
+    <button class="tb" id="bRank"><span class="ic"><img id="icRank" alt=""></span>Ranking</button>
+    <button class="tb vip" id="bVip"><span class="ic"><img id="icVip" alt=""></span>Club VIP</button>
+  </div>
+
+  <div id="veil" class="hidden"></div>
+
+  <div class="win" id="sheet">
+    <div class="hd">Catálogo <button class="x" data-close="sheet">X</button></div>
+    <div class="tabs" id="catTabs"></div>
+    <div class="pane"><div id="grid"></div></div>
+    <div id="det">
+      <img id="dIc" alt="">
+      <div class="tx"><div class="nm" id="dNm"></div><div class="ds" id="dDs"></div></div>
+      <button class="buy" id="buyBtn">COMPRAR<small id="dPr"></small></button>
+    </div>
+  </div>
+
+  <div class="win dlg hidden" id="dlg">
+    <div class="hd"><span id="dlgTitle"></span><button class="x" data-close="dlg">X</button></div>
+    <div class="tabs hidden" id="dlgTabs"></div>
+    <div class="bd" id="dlgBody"></div>
+  </div>
+
+  <div id="toast"></div>
+</div>
+
+<script type="module" src="./src/principal.ts"></script>
+</body>
+</html>

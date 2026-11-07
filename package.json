@@ -4,9 +4,12 @@
   "private": true,
   "description": "Millonaire: mundo social isométrico de millonarios.",
   "scripts": {
-    "armar": "python3 herramientas/armar.py",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tipos": "tsc --noEmit",
     "pruebas": "playwright test",
-    "sync": "cap sync",
+    "sync": "vite build && cap sync",
     "icons": "capacitor-assets generate --iconBackgroundColor '#0b1424' --splashBackgroundColor '#0b1424'"
   },
   "dependencies": {
@@ -18,6 +21,8 @@
   "devDependencies": {
     "@capacitor/assets": "^4.0.0",
     "@capacitor/cli": "^8.6.0",
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6"
   }
 }

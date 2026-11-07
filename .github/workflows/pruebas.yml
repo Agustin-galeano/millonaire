@@ -27,10 +27,8 @@ jobs:
       - name: Instalar el navegador de pruebas
         run: npx playwright install --with-deps chromium
 
-      - name: Verificar que el juego publicado coincide con su fuente
-        run: |
-          python3 herramientas/armar.py
-          git diff --exit-code www/index.html
+      - name: Revisar tipos de TypeScript
+        run: npm run tipos
 
       - name: Correr las pruebas de regresión
         run: npx playwright test

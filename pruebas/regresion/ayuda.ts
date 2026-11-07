@@ -1,7 +1,6 @@
 import { Page, expect } from '@playwright/test';
-import path from 'node:path';
-
-export const URL_JUEGO = 'file://' + path.resolve(__dirname, '../../www/index.html');
+// El juego se sirve con 'vite preview' (ver playwright.config.ts).
+export const URL_JUEGO = 'http://localhost:4173/';
 export const CLAVE = 'millonaire-v2';
 export const CLAVE_MUNDO = 'millonaire-world-v2';
 

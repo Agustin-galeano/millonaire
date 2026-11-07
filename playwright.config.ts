@@ -13,5 +13,12 @@ export default defineConfig({
     hasTouch: true,
     isMobile: false,
   },
+  // Antes de probar, se arma el juego y se sirve en http://localhost:4173
+  webServer: {
+    command: 'npm run build && npx vite preview',
+    url: 'http://localhost:4173/',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+  },
   projects: [{ name: 'celular', use: { browserName: 'chromium' } }],
 });
